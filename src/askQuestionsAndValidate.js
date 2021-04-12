@@ -1,29 +1,11 @@
-/**
- Copyright 2019 Google LLC
+const prompts = require('prompts')
+const lint = require('@commitlint/lint').default
+const { format } = require('@commitlint/format')
+const load = require('@commitlint/load').default
 
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- https://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
- **/
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-loop-func */
-
-const prompts = require('prompts');
-const lint = require('@commitlint/lint');
-const {format} = require('@commitlint/format');
-const load = require('@commitlint/load');
-
-const buildQuestions = require('./buildQuestions');
-const parsers = require('./parsers');
-const logger = require('./logger');
+const buildQuestions = require('./buildQuestions')
+const parsers = require('./parsers')
+const logger = require('./logger')
 
 const {parseScope, parseBody, parseBugNumber, parseScreenshot} = parsers;
 
@@ -68,10 +50,11 @@ module.exports = async function askQuestionsAndValidate(
 
     await load(commitLintConfig)
         .then((opts) => {
-          const parserOpts = opts.parserPreset
-          ? {parserOpts: opts.parserPreset.parserOpts}
-          : {};
-          return lint(commitMessage, opts.rules, parserOpts);
+          return lint(
+            commitMessage,
+            opts.rules,
+            opts.parserPreset ? {parserOpts: opts.parserPreset.parserOpts} : {}
+          )
         })
         .then((report) => {
           if (!valid) {
