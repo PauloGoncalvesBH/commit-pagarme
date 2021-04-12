@@ -14,7 +14,7 @@ module.exports = {
    * Any rules defined here will override rules from @commitlint/config-conventional
    */
   rules: {
-    "body-max-line-length": [2, "always", 72],
+    "body-max-line-length": [2, "always", "Infinity"],
     "scope-enum": [
       0,
       "always",
@@ -31,7 +31,7 @@ module.exports = {
       "always",
       [
         "chore",
-        "docs",
+        "docas",
         "feat",
         "fix",
         "refactor",
@@ -39,7 +39,8 @@ module.exports = {
         "style",
         "test",
         "ci",
-        "perf"]
+        "perf"
+      ]
     ]
   },
   /*

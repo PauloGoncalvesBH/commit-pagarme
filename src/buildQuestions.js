@@ -1,7 +1,7 @@
 const {cyan, yellow, green, gray} = require('chalk')
 const _ = require('lodash')
 
-const OPTIONAL = yellow('[OPTIONAL] ')
+const OPTIONAL = yellow(' [press enter to skip]')
 const AUTO_COMPLETE_CHIOCES_TITLE_PADDING = 5
 
 const getSpaces = (spacing) => _.times(spacing, _.constant(' ')).join('')
@@ -13,7 +13,7 @@ const buildQuestionMessage = (question, mandatory, optionsToPrint) => {
     suffix += `\n`
   }
   if (!mandatory) {
-    return OPTIONAL + cyan(question) + suffix
+    return cyan(question) + OPTIONAL + suffix
   }
   return green(question) + suffix
 }
@@ -74,8 +74,9 @@ function buildQuestions(config, prevValues = {}) {
     buildAutoCompleteQuestion('scope', config.scope, prevValues.scope),
     buildTextQuestion('subject', config.subject, prevValues.subject),
     buildTextQuestion('body', config.body, prevValues.body),
-    buildTextQuestion('bugNumber', config.bugNumber, prevValues.bugNumber),
-    buildTextQuestion('screenshot', config.screenshot, prevValues.screenshot),
+    buildTextQuestion('breakingChange', config.breakingChange, prevValues.breakingChange),
+    buildTextQuestion('issueNumber', config.issueNumber, prevValues.issueNumber),
+    buildTextQuestion('coAuthoredBy', config.coAuthoredBy, prevValues.coAuthoredBy),
   ]
 }
 

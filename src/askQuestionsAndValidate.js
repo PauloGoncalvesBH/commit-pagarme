@@ -7,7 +7,7 @@ const buildQuestions = require('./buildQuestions')
 const parsers = require('./parsers')
 const logger = require('./logger')
 
-const {parseScope, parseBody, parseBugNumber, parseScreenshot} = parsers;
+const {parseScope, parseBody, parseIssueNumber, parseCoAuthoredBy, parseBreakingChange} = parsers;
 
 module.exports = async function askQuestionsAndValidate(
     lintushConfig,
@@ -19,8 +19,9 @@ module.exports = async function askQuestionsAndValidate(
   let scope = '';
   let subject = '';
   let body = '';
-  let bugNumber = '';
-  let screenshot = '';
+  let breakingChange = '';
+  let issueNumber = '';
+  let coAuthoredBy = '';
   let commitMessage = '';
 
   while (!valid) {
@@ -29,21 +30,23 @@ module.exports = async function askQuestionsAndValidate(
       scope,
       subject,
       body,
-      bugNumber,
-      screenshot,
+      breakingChange,
+      issueNumber,
+      coAuthoredBy,
     };
     const results = await prompts(
         buildQuestions(lintushConfig, previousValues)
     );
 
     // apply current values to previous values:
-    ({type, scope, subject, body, bugNumber, screenshot} = results);
+    ({type, scope, subject, body, breakingChange, issueNumber, coAuthoredBy} = results);
 
     const commitParts = [
       `${type}${parseScope(scope)}: ${subject}\n`,
       parseBody(body, bodyMaxLineLength),
-      parseBugNumber(bugNumber),
-      parseScreenshot(screenshot),
+      parseBreakingChange(breakingChange),
+      parseIssueNumber(issueNumber),
+      parseCoAuthoredBy(coAuthoredBy),
     ];
 
     commitMessage = commitParts.join('\n').trim();

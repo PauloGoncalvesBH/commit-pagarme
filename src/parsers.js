@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const ANY_SEPARATOR = new RegExp(/\;|\,|\ /)
+const SEPARATOR = new RegExp(/\;/)
 
 const parseScope = (scope) => {
   const isScopeEmpty = !scope || scope === 'NONE'
@@ -28,35 +28,43 @@ const parseBody = (body, bodyMaxLineLength) => {
   return result.trim()
 }
 
-const parseSingleBugNumber = (bugNumber) => {
-  if (bugNumber.indexOf('b/') !== -1) {
-    return `Fixes: ${bugNumber}`
-  }
-  return `Fixes: b/${bugNumber}`
-}
-
-const parseBugNumber = (bugNumberString) => {
-  if (!bugNumberString) {
+const parseIssueNumber = (issueNumberString) => {
+  if (!issueNumberString) {
     return ''
   }
 
-  return `\n${bugNumberString
-      .split(ANY_SEPARATOR)
-      .filter((bug) => !!bug) // ignore spaces
-      .map((bug) => parseSingleBugNumber(bug))
+  return `\n${issueNumberString
+      .split(SEPARATOR)
+      .filter((issue) => !!issue) // ignore spaces
+      .map((issue) => `Closes: ${issue}`)
       .join('\n')}`
 }
 
-const parseScreenshot = (screenshot) => {
-  if (screenshot) {
-    return `Screenshot: ${screenshot}`
+const parseBreakingChange = (breakingChangeString) => {
+  if (!breakingChangeString) {
+    return ''
   }
-  return ''
+
+  return `\nBREAKING CHANGE: ${breakingChangeString}`
+}
+
+const parseCoAuthoredBy = (coAuthoredByString) => {
+  if (!coAuthoredByString) {
+    return ''
+  }
+  console.log(coAuthoredByString);
+
+  return `\n${coAuthoredByString
+      .split(SEPARATOR)
+      .filter((coAuthoredBy) => !!coAuthoredBy) // ignore spaces
+      .map((coAuthoredBy) => `Co-authored-by: ${coAuthoredBy}`)
+      .join('\n')}`
 }
 
 module.exports = {
   parseScope,
   parseBody,
-  parseBugNumber,
-  parseScreenshot,
+  parseIssueNumber,
+  parseBreakingChange,
+  parseCoAuthoredBy,
 }

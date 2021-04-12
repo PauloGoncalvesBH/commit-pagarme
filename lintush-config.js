@@ -3,42 +3,43 @@ const commitScopes = require("./commitlint.config").rules["scope-enum"][2]
 module.exports = {
   type: {
     choices: {
-      feat: "new feature",
-      fix: "bug fix",
-      test: "adding or refactoring tests; no production code change",
-      docs: "changes to documentation",
+      feat: "A new feature",
+      fix: "A bug fix",
+      test: "Adding or refactoring tests; no production code change",
+      docs: "Documentation only changes",
       ci: "CI related changes",
-      refactor: "code change that neither fixes a bug nor adds a feature",
-      revert: "reverts a previous commit",
-      style: "formatting, missing semi colons, white-space, etc; no code change",
-      perf: "code change that improves performance",
-      chore: "other changes that don't modify src or test files"
+      refactor: "A code change that neither fixes a bug nor adds a feature",
+      revert: "Reverts a previous commit",
+      style: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
+      perf: "A code change that improves performance",
+      chore: "Other changes that don't modify src or test files"
     },
     mandatory: true,
-    question: "What it the type of the commit?"
+    question: "Select the type of change that you're committing:"
   },
   scope: {
     choices: commitScopes,
     mandatory: false,
-    question: "What is the scope of the commit?"
+    question: "What is the scope of this change?"
   },
   subject: {
     mandatory: true,
-    question:
-      "Commit title - Summarize your changes in 50 characters or less (use imperative mood)"
+    question: "Commit title - Write a short, imperative mood description of the change"
   },
   body: {
     mandatory: false,
-    question:
-      "Explain the problem that this commit is solving. Focus on why you are making this change as opposed to how (the code explains that). Are there any side effects or other unintuitive consequences of this change?"
+    question: "Explain the problem that this commit is solving. Focus on why you are making this change as opposed to how (the code explains that). Are there any side effects or other unintuitive consequences of this change?"
   },
-  bugNumber: {
+  breakingChange: {
     mandatory: false,
-    question: "Enter the bug id or click enter"
+    question: "List any breaking changes"
   },
-  screenshot: {
+  issueNumber: {
     mandatory: false,
-    question:
-      "If you have a screenshot of the fix, paste the URL here or click enter"
+    question: "Add issue reference. Use ; as separator (e.g. '#123', 'https://mundipagg.atlassian.net/browse/QA-555')"
+  },
+  coAuthoredBy: {
+    mandatory: false,
+    question: "Did pair programming? Add co-author. Use ; as separator (e.g. 'Paulo Gonçalves <paulo@example.me>;Marina Viana <marina@example.me>')"
   }
 }
